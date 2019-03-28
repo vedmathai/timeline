@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from timeline.src.datamodel.ecb_plus.document import Document
 from timeline.src.datamodel.ecb_plus.entities import Entity
-from timeline.src.datamodel.ecb_plus.text import Sentence
+from timeline.src.datamodel.ecb_plus.text import Sentence, Token
 from timeline.src.datamodel.ecb_plus.markable import Markable
 
 
@@ -15,17 +15,18 @@ class Context():
         self._document2sentences = defaultdict(lambda: [])
         self._markables: Dict[str, Markable] = {}
         self._document2markables = defaultdict(lambda: [])
+        self._document2tokens = defaultdict(lambda: defaultdict(lambda: None))
 
     def dataset_id(self) -> str:
         return self._dataset_id
 
-    def get_entities_dict(self) -> Dict:
+    def entities(self) -> Dict:
         return self._entities
 
     def get_entity_by_id(self, id: str, create: bool = True) -> Entity:
         if create is True:
             if id not in self._entities:
-                self._entities[id] = Entity()
+                self._entities[id] = Entity(id=id)
         return self._entities[id]
 
     def get_sentence(self, document: Document, id: str, create: bool = True) -> Sentence:
@@ -47,3 +48,9 @@ class Context():
 
     def add_markable_to_document(self, document: Document, markable: Markable) -> None:
         self._document2markables[document.id()] += [markable]
+
+    def add_document_to_token(self, document: Document, token: Token) -> None:
+        self._document2tokens[document.id()][token.id()] = token
+
+    def get_document_to_token(self, document: Document, token_id: str) -> None:
+        return self._document2tokens[document.id()][token_id]

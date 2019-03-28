@@ -8,6 +8,7 @@ from timeline.src.datamodel.ecb_plus.markable import Markable
 
 if typing.TYPE_CHECKING:
     from timeline.src.datamodel.ecb_plus.context import Context
+    from timeline.src.datamodel.ecb_plus.Entity import Entity
 
 
 class Document():
@@ -16,6 +17,7 @@ class Document():
         self._xml_file = xml_file
         self._sentences: Dict[str, Sentence] = {}
         self._markables: Dict[str, Markable] = {}
+        self._entities: Dict[str, Entity] = {}
 
     def id(self) -> str:
         return self._xml_file
@@ -26,11 +28,17 @@ class Document():
     def markables(self) -> Dict[str, Markable]:
         return self._markables
 
+    def entities(self) -> Dict[str, 'Entity']:
+        return self._entities
+
     def sentence_by_id(self, id: str) -> Sentence:
         return self._sentences[id] 
 
     def markable_by_id(self, id: str) -> Markable:
         return self._markables[id]
+
+    def set_entities(self, entities: Dict[str, 'Entity']) -> None:
+        self._entities = entities
 
     def set_sentences(self, sentences: List[Sentence]) -> None:
         self._sentences = {sentence.id(): sentence for sentence in sentences}
@@ -70,10 +78,5 @@ class Document():
                     markable = document.markable_by_id(id)
                     entity.add_markable(markable)
                     markable.set_entity(entity=entity)
+        document.set_entities(context.entities())
         return document
-
-
-if __name__ == '__main__':
-    from timeline.src.datamodel.ecb_plus.context import Context
-    doc = Document.from_xml('/Users/vedmathai/Documents/python/temporal/data/ECB+_LREC2014/ECB+/1/1_2ecbplus.xml', Context())
-    print([sentence.text() for sentence in doc.sentences().values()])

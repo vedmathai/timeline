@@ -48,6 +48,9 @@ class Document():
     def add_tlink(self, tlink: TLink) -> None:
         self._tlinks[tlink.inst_abs_id()] = tlink
     
+    def tlinks(self) -> Dict[str, TLink]:
+        return self._tlinks
+    
     def timexes(self) -> Dict[str, Timex]:
         return self._timexes
 

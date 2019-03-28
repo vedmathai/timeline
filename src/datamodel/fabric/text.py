@@ -64,15 +64,6 @@ class Sentence():
     def add_event(self, event: Event) -> None:
         self._events[event.id()] = event
 
-    def events(self) -> Dict[str, Event]:
-        return self._events
-
-    def timexes(self) -> Dict[str, Timex]:
-        return self._timexes
-
-    def tokens(self) -> Dict[str, 'Token']:
-        return self._tokens
-
     def text(self) -> str:
         tokens: List[str] = []
         for key in sorted(list(self._tokens.keys()), key=lambda x: int(x)):
