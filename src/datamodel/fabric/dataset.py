@@ -36,7 +36,7 @@ class Dataset():
         ecb_plus = EDataset.from_folders(ecb_plus_folder)
         context = Context()
         for doci, doc in enumerate(caevo.documents()):
-            if doc[:2] != '2_':
+            if doc[:2] != '32':
                 continue
             print(doc)
             Document.from_caevo_ecb_plus(
