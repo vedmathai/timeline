@@ -32,7 +32,7 @@ class Document():
         return self._entities
 
     def sentence_by_id(self, id: str) -> Sentence:
-        return self._sentences[id] 
+        return self._sentences[id]
 
     def markable_by_id(self, id: str) -> Markable:
         return self._markables[id]

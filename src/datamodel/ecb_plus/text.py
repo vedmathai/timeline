@@ -16,6 +16,21 @@ class Sentence():
     def id(self) -> str:
         return self._id
 
+    def previous_sentence(self) -> 'Sentence':
+        prev_id = str(int(self.id()) - 1)
+        try:
+            return self._parent_document.sentence_by_id(id=prev_id)
+        except KeyError:
+            return None
+
+    def next_sentence(self) -> 'Sentence':
+        next_id = str(int(self.id()) + 1)
+        try:
+            return self._parent_document.sentence_by_id(id=next_id)
+        except KeyError:
+            return None
+
+
     def parent_document(self) -> 'Document':
         return self._parent_document
 
